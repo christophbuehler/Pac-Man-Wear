@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Pac-Man-Wear</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+
+    <string name="play_game_text">Play</string>
+
+    <color name="primary">#0E0E60</color>
+    <color name="secondary">#000000</color>
+
+</resources>
