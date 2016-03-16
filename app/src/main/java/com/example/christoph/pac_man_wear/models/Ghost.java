@@ -13,12 +13,15 @@ import com.example.christoph.pac_man_wear.utils.V;
 public class Ghost extends Entity implements Drawable {
     private Ai ai;
     private int color;
+    private Paint p;
 
     public Ghost(Ai ai, int color, Map map) {
-        super(Direction.RIGHT, new V(20, 20), 2, map);
+        super(Direction.RIGHT, new V(1, 1), .2f, map);
 
         this.ai = ai;
         this.color = color;
+        p = new Paint();
+        p.setColor(color);
 
         ai.init(map, this);
     }
@@ -27,10 +30,26 @@ public class Ghost extends Entity implements Drawable {
         V translatedPos = getMap().translatePosition(getPos());
 
         // draw the ghost
-        canvas.drawCircle(translatedPos.getX(), translatedPos.getY(), 20, paint);
+        canvas.drawCircle(translatedPos.getX(), translatedPos.getY(), 6, p);
     }
 
     public void update(long delta) {
-        // super.update();
+        if (super.update()) return;
+
+        // the ghost is stuck
+        switch ((int) (Math.random() * 4)) {
+            case 0:
+                setDesiredDir(Direction.UP);
+                break;
+            case 1:
+                setDesiredDir(Direction.RIGHT);
+                break;
+            case 2:
+                setDesiredDir(Direction.DOWN);
+                break;
+            case 3:
+                setDesiredDir(Direction.LEFT);
+                break;
+        }
     }
 }

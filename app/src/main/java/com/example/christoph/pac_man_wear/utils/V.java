@@ -45,6 +45,10 @@ public class V {
         return new V(x / v.x, y / v.y);
     }
 
+    public V dot(V v) {
+        return new V(x * v.x, y * v.y);
+    }
+
     public V moveLinear(Direction dir, float speed) {
         switch (dir) {
             case UP:

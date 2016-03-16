@@ -87,7 +87,8 @@ public class Map {
      * @return
      */
     public V translatePosition(V pos) {
-        return pos.subtract(camera.getPos());
+        return pos.subtract(camera.getPos()).dot(new V(tileSize, tileSize))
+                .add(new V(displaySize.x / 2, displaySize.y / 2));
     }
 
     /**
