@@ -1,40 +1,41 @@
 package com.example.christoph.pac_man_wear.models;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 
+import com.example.christoph.pac_man_wear.controllers.Camera;
+import com.example.christoph.pac_man_wear.utils.V;
 
 /**
  * Created by Christoph on 15.03.2016.
  */
-public class Player implements Entity, Drawable {
-    private Point pos;
-    private Direction dir; // The direction the player is facing.
+public class Player extends Entity implements Drawable, Camera {
 
     /**
      * Player constructor.
-     * @param dir The initial direction.
+     * @param currentDir
+     * @param pos
+     * @param map
      */
-    public Player(Direction dir) {
-        this.dir = dir;
+    public Player(Direction currentDir, V pos, Map map) {
+        super(currentDir, pos, .6f, map);
+
+        // initialize map
+        map.init(this);
     }
 
-    public void draw(Canvas canvas) {
-        System.out.println("Drawing Player");
+    public void draw(Canvas canvas, Paint paint) {
+
+        Paint p = new Paint();
+        p.setColor(Color.YELLOW);
+
+        // the player is always at the center of the display
+        canvas.drawCircle(getMap().getDisplaySize().x / 2, getMap().getDisplaySize().y / 2, 7, p);
     }
 
     public void update(long delta) {
-        System.out.println("Updating Ghost.");
-    }
-
-    /**
-     * Change the direction the player is facing.
-     * @param dir The new direction.
-     * @return Whether the direction had to be changed.
-     */
-    public Boolean changeDirection(Direction dir) {
-        if (this.dir.equals(dir)) return false;
-        this.dir = dir;
-        return true;
+        super.update();
     }
 }

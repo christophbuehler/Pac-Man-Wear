@@ -6,7 +6,8 @@ import android.os.Handler;
 import android.support.wearable.view.WatchViewStub;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.example.christoph.pac_man_wear.views.GameView;
 
 public class PacManActivity extends Activity {
     private GameView gameView;

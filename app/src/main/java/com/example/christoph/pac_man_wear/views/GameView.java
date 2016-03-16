@@ -1,9 +1,12 @@
-package com.example.christoph.pac_man_wear;
+package com.example.christoph.pac_man_wear.views;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.View;
 import android.view.Display;
+
+import com.example.christoph.pac_man_wear.PacManActivity;
 import com.example.christoph.pac_man_wear.controllers.Game;
 
 /**
@@ -13,6 +16,7 @@ public class GameView extends View {
     private Point displaySize;
     private PacManActivity context;
     private Game game;
+    protected Paint paint;
 
     public GameView(PacManActivity context) {
         super(context);
@@ -23,17 +27,21 @@ public class GameView extends View {
         displaySize = new Point();
         display.getSize(displaySize);
 
-        this.context = context;
+        paint = new Paint();
 
-        this.game = new Game();
+        this.context = context;
+        game = new Game(context, displaySize);
+
+        game.play();
     }
 
     public void update(long delta) {
         this.game.update(delta);
+        invalidate();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        this.game.draw(canvas);
+        this.game.draw(canvas, paint);
     }
 }

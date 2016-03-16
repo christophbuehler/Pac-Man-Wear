@@ -1,11 +1,18 @@
 package com.example.christoph.pac_man_wear.controllers;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-
+import android.graphics.Paint;
+import android.graphics.Point;
+import com.example.christoph.pac_man_wear.R;
+import com.example.christoph.pac_man_wear.PacManActivity;
 import com.example.christoph.pac_man_wear.models.Direction;
 import com.example.christoph.pac_man_wear.models.Ghost;
+import com.example.christoph.pac_man_wear.models.Map;
 import com.example.christoph.pac_man_wear.models.Player;
+import com.example.christoph.pac_man_wear.utils.V;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +23,15 @@ import java.util.Arrays;
 public class Game {
     private ArrayList<Ghost> ghosts = new ArrayList<Ghost>();
     private Player player;
+    private Map map;
     private boolean isPlaying = false;
 
-    public Game() {
+    private PacManActivity context;
+    private Point displaySize;
 
+    public Game(PacManActivity context, Point displaySize) {
+        this.context = context;
+        this.displaySize = displaySize;
     }
 
     /**
@@ -27,15 +39,19 @@ public class Game {
      */
     public void play() {
 
+        // create a new map
+        map = new Map(Bitmap.createScaledBitmap(
+              BitmapFactory.decodeResource(context.getResources(), R.drawable.map), 399, 441, false), displaySize);
+
         // create a new, right facing player
-        player = new Player(Direction.RIGHT);
+        player = new Player(Direction.RIGHT, new V(1, 1), map);
 
         // create ghosts
         ghosts.addAll(Arrays.asList(
-            new Ghost(new TestAi(), Color.RED),
-            new Ghost(new TestAi(), Color.BLUE),
-            new Ghost(new TestAi(), Color.GREEN),
-            new Ghost(new TestAi(), Color.YELLOW)
+            new Ghost(new TestAi(), Color.RED, map),
+            new Ghost(new TestAi(), Color.BLUE, map),
+            new Ghost(new TestAi(), Color.GREEN, map),
+            new Ghost(new TestAi(), Color.YELLOW, map)
         ));
 
         isPlaying = true;
@@ -46,15 +62,17 @@ public class Game {
      * @param canvas The game canvas.
      * @return Whether the Game could be drawn.
      */
-    public boolean draw(Canvas canvas) {
+    public boolean draw(Canvas canvas, Paint paint) {
         if (!isPlaying) return false;
 
+        map.draw(canvas, paint);
+
         // draw the player
-        player.draw(canvas);
+        player.draw(canvas, paint);
 
         // draw all the ghosts
         for (Ghost ghost : ghosts) {
-            ghost.draw(canvas);
+            ghost.draw(canvas, paint);
         }
 
         return true;
