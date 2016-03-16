@@ -48,16 +48,32 @@ public class GameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Point center = null;
+        V p = null;
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                touchEnterPoint = new Point((int) event.getX(), (int) event.getY());
-                break;
-            case MotionEvent.ACTION_MOVE:
                 if (!game.isPlaying()) return false;
 
-                game.getPlayer().setDesiredDir((Math.abs(event.getX() - touchEnterPoint.x) > Math.abs(event.getY() - touchEnterPoint.y)
-                        ? (event.getX() > touchEnterPoint.x ? Direction.RIGHT : Direction.LEFT)
-                        : (event.getY() > touchEnterPoint.y ? Direction.DOWN : Direction.UP)));
+                if (center == null) center = new Point(
+                        game.getMap().getDisplaySize().x / 2,
+                        game.getMap().getDisplaySize().y / 2
+                );
+
+                p = new V(event.getX() - center.x, event.getY() - center.y);
+
+                game.getPlayer().setDesiredDir((Math.abs(p.getX()) > Math.abs(p.getY())
+                        ? (p.getX() > 0 ? Direction.RIGHT : Direction.LEFT)
+                        : (p.getY() > 0 ? Direction.DOWN : Direction.UP)));
+
+//                touchEnterPoint = new Point((int) event.getX(), (int) event.getY());
+                break;
+            case MotionEvent.ACTION_MOVE:
+//                if (!game.isPlaying()) return false;
+//
+//                game.getPlayer().setDesiredDir((Math.abs(event.getX() - touchEnterPoint.x) > Math.abs(event.getY() - touchEnterPoint.y)
+//                        ? (event.getX() > touchEnterPoint.x ? Direction.RIGHT : Direction.LEFT)
+//                        : (event.getY() > touchEnterPoint.y ? Direction.DOWN : Direction.UP)));
         }
         return true;
     }

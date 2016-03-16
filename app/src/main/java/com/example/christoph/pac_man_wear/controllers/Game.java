@@ -29,6 +29,14 @@ public class Game {
     private PacManActivity context;
     private Point displaySize;
 
+    public Map getMap() {
+        return map;
+    }
+
+    public void setMap(Map map) {
+        this.map = map;
+    }
+
     public boolean isPlaying() {
         return isPlaying;
     }
@@ -60,7 +68,7 @@ public class Game {
               BitmapFactory.decodeResource(context.getResources(), R.drawable.map), 399, 441, false), displaySize);
 
         // create a new, right facing player
-        player = new Player(Direction.RIGHT, new V(1, 1), map);
+        player = new Player(Direction.RIGHT, new V(9, 15), map, this);
 
         // create ghosts
         ghosts.addAll(Arrays.asList(

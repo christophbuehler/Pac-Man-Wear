@@ -2,6 +2,7 @@ package com.example.christoph.pac_man_wear.models;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
@@ -18,28 +19,28 @@ public class Map {
     private Point displaySize; // viewport
     private Point bitmapSize; // size of the map bitmap
     private int tileSize = 21;
-    private float cornerThreshold = 4;
+    private float cornerThreshold = .1f;
     private int[][] collisionMap = {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1 },
-        { 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1 },
-        { 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
-        { 1, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1 },
-        { 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 },
-        { 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1 },
-        { 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0 },
-        { 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1 },
-        { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1 },
-        { 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1 },
-        { 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1 },
-        { 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1 },
-        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+        { 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
+        { 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1 },
+        { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
+        { 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1 },
+        { 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0, 0, 1 },
+        { 1, 1, 1, 1, 2, 1, 1, 1, 0, 1, 0, 1, 1, 1, 2, 1, 1, 1, 1 },
+        { 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0 },
+        { 1, 1, 1, 1, 2, 1, 0, 1, 1, 0, 1, 1, 0, 1, 2, 1, 1, 1, 1 },
+        { 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2, 0, 0, 0, 0 },
+        { 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1 },
+        { 0, 0, 0, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 0, 0, 0 },
+        { 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1 },
+        { 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
+        { 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1 },
+        { 1, 2, 2, 1, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 1, 2, 2, 1 },
+        { 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1 },
+        { 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1 },
+        { 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1 },
+        { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     };
 
@@ -72,11 +73,29 @@ public class Map {
 
     public boolean draw(Canvas canvas, Paint paint) {
         V cameraPos = camera.getPos();
+        V foodPos;
+        Paint foodPaint = new Paint();
+
         if (!this.isInitialized) return false;
 
+        // draw background
         canvas.drawBitmap(image,
                 -cameraPos.getX() * tileSize + displaySize.x / 2 - tileSize / 2,
                 -cameraPos.getY() * tileSize + displaySize.y / 2 - tileSize / 2, paint);
+
+        foodPaint.setColor(Color.WHITE);
+
+        // draw food
+        for (int y=0; y<collisionMap.length; y++) {
+            for (int x=0; x<collisionMap[y].length; x++) {
+
+                // this is food
+                if (collisionMap[y][x] == 2) {
+                    foodPos = translatePosition(new V(x, y));
+                    canvas.drawCircle(foodPos.getX(), foodPos.getY(), 2, foodPaint);
+                }
+            }
+        }
 
         return true;
     }
@@ -108,6 +127,19 @@ public class Map {
 
         // the entity can move in the current direction
         if (!isColliding(entity.getCurrentDir(), newPos)) {
+
+            // lock the axis
+            switch (entity.getCurrentDir()) {
+                case UP:
+                case DOWN:
+                    newPos.setX(Math.round(newPos.getX()));
+                    break;
+                case RIGHT:
+                case LEFT:
+                    newPos.setY(Math.round(newPos.getY()));
+                    break;
+            }
+
             entity.setPos(newPos);
             return true;
         }
@@ -115,6 +147,18 @@ public class Map {
         // the entity ran into a wall
         entity.setPos(entity.getPos().round());
         return false;
+    }
+
+    /**
+     * Eat the food on this tile.
+     * @param pos
+     * @return whether something was eaten
+     */
+    public boolean eat(V pos) {
+        Point tile = new Point((int) (pos.getX() + .5f), (int) (pos.getY() + .5f));
+        if (collisionMap[tile.y][tile.x] != 2) return false;
+        collisionMap[tile.y][tile.x] = 0;
+        return true;
     }
 
     /**
@@ -128,7 +172,7 @@ public class Map {
         if (dir == entity.getCurrentDir()) return false;
 
         // entity cannot move in this direction
-        if (isColliding(dir, entity.getPos())) return false;
+        if (isColliding(dir, entity.getPos().moveLinear(dir, entity.getSpeed()))) return false;
 
         entity.setCurrentDir(dir);
 
@@ -144,13 +188,17 @@ public class Map {
     private boolean isColliding(Direction dir, V pos) {
        switch (dir) {
            case UP:
-               return collisionMap[(int) pos.getY()][(int) pos.getX()] == 1;
+               return collisionMap[(int) pos.getY()][(int) (pos.getX() + cornerThreshold)] == 1 ||
+                      collisionMap[(int) pos.getY()][(int) (pos.getX() + (1 - cornerThreshold))] == 1;
            case RIGHT:
-               return collisionMap[(int) pos.getY()][(int) pos.getX() + 1] == 1;
+               return collisionMap[(int) (pos.getY() + cornerThreshold)][(int) pos.getX() + 1] == 1 ||
+                      collisionMap[(int) (pos.getY() + (1 - cornerThreshold))][(int) pos.getX() + 1] == 1;
            case DOWN:
-               return collisionMap[(int) pos.getY() + 1][(int) pos.getX()] == 1;
+               return collisionMap[(int) pos.getY() + 1][(int) (pos.getX() + cornerThreshold)] == 1 ||
+                      collisionMap[(int) pos.getY() + 1][(int) (pos.getX() + (1 - cornerThreshold))] == 1;
            case LEFT:
-               return collisionMap[(int) pos.getY()][(int) pos.getX()] == 1;
+               return collisionMap[(int) (pos.getY() + cornerThreshold)][(int) pos.getX()] == 1 ||
+                      collisionMap[(int) (pos.getY() + (1 - cornerThreshold))][(int) pos.getX()] == 1;
        }
        return false;
     }
