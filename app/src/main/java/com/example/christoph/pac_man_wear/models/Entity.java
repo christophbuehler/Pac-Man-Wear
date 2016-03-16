@@ -66,22 +66,7 @@ public abstract class Entity {
         this.map = map;
     }
 
-    public void update() {
-        if (!map.validateMovement(this)) {
-            switch ((int) (Math.random() * 4)) {
-                case 0:
-                    desiredDir = Direction.UP;
-                    break;
-                case 1:
-                    desiredDir = Direction.RIGHT;
-                    break;
-                case 2:
-                    desiredDir = Direction.DOWN;
-                    break;
-                case 3:
-                    desiredDir = Direction.LEFT;
-                    break;
-            }
-        }
+    public boolean update() {
+        return map.validateMovement(this);
     }
 }
