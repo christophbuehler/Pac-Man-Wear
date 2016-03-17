@@ -37,13 +37,12 @@ public class Player extends Entity implements Drawable, Camera {
         p.setColor(Color.YELLOW);
 
         // the player is always at the center of the display
-        canvas.drawCircle(getMap().getDisplaySize().x / 2, getMap().getDisplaySize().y / 2, 8, p);
+        canvas.drawCircle(getMap().getDisplaySize().x / 2, getMap().getDisplaySize().y / 2, 9, p);
 
         // display points
         pointsPaint.setColor(Color.YELLOW);
         pointsPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         pointsPaint.setTextSize(20);
-        canvas.drawText(Integer.toString(points), 40, 40, pointsPaint);
     }
 
     public void update(long delta) {

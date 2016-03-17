@@ -23,7 +23,7 @@ public class Map {
     private int[][] collisionMap = {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         { 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
-        { 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1 },
+        { 1, 3, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 3, 1 },
         { 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
         { 1, 2, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1 },
         { 1, 0, 0, 0, 2, 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0, 0, 1 },
@@ -36,7 +36,7 @@ public class Map {
         { 1, 1, 1, 1, 2, 1, 0, 1, 1, 1, 1, 1, 0, 1, 2, 1, 1, 1, 1 },
         { 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
         { 1, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1 },
-        { 1, 2, 2, 1, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 1, 2, 2, 1 },
+        { 1, 3, 2, 1, 2, 2, 2, 2, 2, 0, 2, 2, 2, 2, 2, 1, 2, 3, 1 },
         { 1, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1 },
         { 1, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 2, 1 },
         { 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1 },
@@ -93,6 +93,9 @@ public class Map {
                 if (collisionMap[y][x] == 2) {
                     foodPos = translatePosition(new V(x, y));
                     canvas.drawCircle(foodPos.getX(), foodPos.getY(), 2, foodPaint);
+                } else if (collisionMap[y][x] == 3) {
+                    foodPos = translatePosition(new V(x, y));
+                    canvas.drawCircle(foodPos.getX(), foodPos.getY(), 5, foodPaint);
                 }
             }
         }
@@ -156,9 +159,16 @@ public class Map {
      */
     public boolean eat(V pos) {
         Point tile = new Point((int) (pos.getX() + .5f), (int) (pos.getY() + .5f));
-        if (collisionMap[tile.y][tile.x] != 2) return false;
-        collisionMap[tile.y][tile.x] = 0;
-        return true;
+        if (collisionMap[tile.y][tile.x] == 2) {
+            collisionMap[tile.y][tile.x] = 0;
+            return true;
+        }
+        if (collisionMap[tile.y][tile.x] == 3) {
+            collisionMap[tile.y][tile.x] = 0;
+            return true;
+        }
+
+        return false;
     }
 
     /**
