@@ -48,6 +48,7 @@ public class PacManActivity extends Activity {
 
         // clicked on play game button
         playGameBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 loadNewGame();
@@ -71,5 +72,20 @@ public class PacManActivity extends Activity {
     private void loadNewGame() {
         gameView = new GameView(this);
         setContentView(gameView);
+    }
+
+    /**
+     * Show home screen after the player lost.
+     */
+    public void showHomeScreen() {
+        setContentView(R.layout.activity_pac_man);
+        final WatchViewStub stub = (WatchViewStub) findViewById(R.id.watch_view_stub);
+        stub.setOnLayoutInflatedListener(new WatchViewStub.OnLayoutInflatedListener() {
+
+            @Override
+            public void onLayoutInflated(WatchViewStub stub) {
+                showMainMenu();
+            }
+        });
     }
 }

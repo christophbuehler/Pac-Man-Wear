@@ -63,6 +63,19 @@ public class V {
         return this;
     }
 
+    public double dist(V v) {
+        V delta = new V(x - v.getX(), y - v.getY());
+        return Math.sqrt(delta.getX() * delta.getX() + delta.getY() * delta.getY());
+    }
+
+    public boolean isIdentical(V v) {
+        return v.getX() == x && v.getY() == y;
+    }
+
+    public V clone() {
+        return new V(x, y);
+    }
+
     public V round() {
         return new V(Math.round(x), Math.round(y));
     }

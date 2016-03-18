@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.example.christoph.pac_man_wear.controllers.Camera;
+import com.example.christoph.pac_man_wear.controllers.Game;
 import com.example.christoph.pac_man_wear.utils.V;
 
 /**
@@ -20,6 +21,7 @@ public class Map {
     private Point bitmapSize; // size of the map bitmap
     private int tileSize = 21;
     private float cornerThreshold = .1f;
+    private Game game;
     private int[][] collisionMap = {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
         { 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1 },
@@ -44,6 +46,14 @@ public class Map {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
     };
 
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
     public int getTileSize() {
         return tileSize;
     }
@@ -60,9 +70,10 @@ public class Map {
         this.displaySize = displaySize;
     }
 
-    public Map(Bitmap image, Point displaySize) {
+    public Map(Bitmap image, Point displaySize, Game game) {
         this.image = image;
         this.displaySize = displaySize;
+        this.game = game;
         this.bitmapSize = new Point(image.getWidth(), image.getHeight());
     }
 
@@ -157,17 +168,43 @@ public class Map {
      * @param pos
      * @return whether something was eaten
      */
-    public boolean eat(V pos) {
+    public void eat(Player player) {
+        V pos = player.getPos();
+
         Point tile = new Point((int) (pos.getX() + .5f), (int) (pos.getY() + .5f));
+
+        // the player ate a dot
         if (collisionMap[tile.y][tile.x] == 2) {
             collisionMap[tile.y][tile.x] = 0;
-            return true;
-        }
-        if (collisionMap[tile.y][tile.x] == 3) {
-            collisionMap[tile.y][tile.x] = 0;
-            return true;
+            player.addPoint();
+
+            if (!hasDotsLeft()) {
+
+                // stop the game
+                game.completedLevel();
+            }
+
+            return;
         }
 
+        // the player ate a hash cookie
+        if (collisionMap[tile.y][tile.x] == 3) {
+            collisionMap[tile.y][tile.x] = 0;
+            game.makeVincible();
+            return;
+        }
+    }
+
+    /**
+     * If the player has no dots left, the level is completed.
+     * @return
+     */
+    private boolean hasDotsLeft() {
+        for (int y = 0; y < collisionMap.length; y++) {
+            for (int x = 0; x < collisionMap[y].length; x++) {
+                if (collisionMap[y][x] == 2) return true;
+            }
+        }
         return false;
     }
 
